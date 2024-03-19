@@ -32,6 +32,19 @@ function App() {
     setTasks(updatedState);
   };
 
+  const changeTaskStatus = (taskId: string, newStatus: boolean) => {
+    // const task = tasks.find((task) => task.id === taskId);
+    // if (task) {
+    //   task.isDone = !task.isDone;
+    // }
+    // setTasks([...tasks]);
+    const updatedState = tasks.map((task) =>
+      task.id === taskId ? { ...task, isDone: newStatus } : task
+    );
+
+    setTasks(updatedState);
+  };
+
   const changeFilter = (filter: Filter) => {
     setFilter(filter);
   };
@@ -56,10 +69,12 @@ function App() {
     <div className="App">
       <TodoList
         title={todoListTitle}
+        filter={filter}
         tasks={filteredTasks}
         removeTask={removeTask}
         changeFilter={changeFilter}
         addTask={addTask}
+        changeTaskStatus={changeTaskStatus}
       />
     </div>
   );
