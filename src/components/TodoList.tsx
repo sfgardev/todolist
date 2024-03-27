@@ -4,13 +4,19 @@ import { Button } from "./Button";
 import { TodoListHeader } from "./TodoListHeader";
 
 type TodoListProps = {
+  todolistId: string;
   filter: Filter;
   title: string;
   tasks: Task[];
-  removeTask: (taskId: string) => void;
-  changeFilter: (filter: Filter) => void;
-  addTask: (title: string) => void;
-  changeTaskStatus: (taskId: string, newStatus: boolean) => void;
+  removeTask: (todolistId: string, taskId: string) => void;
+  changeFilter: (todolist: string, filter: Filter) => void;
+  addTask: (todolistId: string, title: string) => void;
+  changeTaskStatus: (
+    todolistId: string,
+    taskId: string,
+    newStatus: boolean
+  ) => void;
+  removeTodolist: (todolistId: string) => void;
 };
 
 export type Task = {
@@ -20,6 +26,7 @@ export type Task = {
 };
 
 export const TodoList = ({
+  todolistId,
   title,
   tasks,
   filter,
@@ -27,6 +34,7 @@ export const TodoList = ({
   changeFilter,
   addTask,
   changeTaskStatus,
+  removeTodolist,
 }: TodoListProps) => {
   const [taskTitle, setTaskTitle] = useState("");
   const [inputError, setInputError] = useState<boolean>(false);
@@ -38,9 +46,9 @@ export const TodoList = ({
     tasksList = (
       <ul>
         {tasks.map((task) => {
-          const removeTaskHandler = () => removeTask(task.id);
+          const removeTaskHandler = () => removeTask(todolistId, task.id);
           const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
-            changeTaskStatus(task.id, e.currentTarget.checked);
+            changeTaskStatus(todolistId, task.id, e.currentTarget.checked);
           return (
             <li key={task.id}>
               <input
@@ -59,10 +67,14 @@ export const TodoList = ({
     );
   }
 
+  const removeTodolistHandler = () => {
+    removeTodolist(todolistId);
+  };
+
   const addNewTaskHandler = () => {
     const trimmedTitle = taskTitle.trim();
     if (trimmedTitle) {
-      addTask(trimmedTitle);
+      addTask(todolistId, trimmedTitle);
     } else {
       setInputError(true);
       setTimeout(() => {
@@ -84,7 +96,7 @@ export const TodoList = ({
   };
 
   const changeFilterHandlerCreator = (filter: Filter) => {
-    return () => changeFilter(filter);
+    return () => changeFilter(todolistId, filter);
   };
 
   const maxTitleLength = 15;
@@ -93,7 +105,10 @@ export const TodoList = ({
 
   return (
     <div className="todolist">
-      <TodoListHeader title={title} />
+      <div className="todolist-header">
+        <TodoListHeader title={title} />
+        <Button onClick={removeTodolistHandler} title="x" />
+      </div>
       <div>
         <input
           value={taskTitle}
