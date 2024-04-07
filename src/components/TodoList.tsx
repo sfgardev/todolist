@@ -1,7 +1,8 @@
-import { ChangeEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { Filter } from "../App";
+import { AddItemForm } from "./AddItemForm";
 import { Button } from "./Button";
-import { TodoListHeader } from "./TodoListHeader";
+import { EditableSpan } from "./EditableSpan";
 
 type TodoListProps = {
   todolistId: string;
@@ -16,7 +17,9 @@ type TodoListProps = {
     taskId: string,
     newStatus: boolean
   ) => void;
+  editTask: (todolistId: string, taskId: string, title: string) => void;
   removeTodolist: (todolistId: string) => void;
+  editTodolist: (todolistId: string, title: string) => void;
 };
 
 export type Task = {
@@ -35,9 +38,11 @@ export const TodoList = ({
   addTask,
   changeTaskStatus,
   removeTodolist,
+  editTask,
+  editTodolist,
 }: TodoListProps) => {
-  const [taskTitle, setTaskTitle] = useState("");
-  const [inputError, setInputError] = useState<boolean>(false);
+  const editTaskHandler = (taskId: string, title: string) =>
+    editTask(todolistId, taskId, title);
 
   let tasksList;
   if (tasks.length === 0) {
@@ -49,6 +54,9 @@ export const TodoList = ({
           const removeTaskHandler = () => removeTask(todolistId, task.id);
           const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
             changeTaskStatus(todolistId, task.id, e.currentTarget.checked);
+          // const editTaskHandler = (title: string) =>
+          //   editTask(todolistId, task.id, title);
+
           return (
             <li key={task.id}>
               <input
@@ -56,9 +64,12 @@ export const TodoList = ({
                 checked={task.isDone}
                 onChange={changeStatusHandler}
               />
-              <span className={task.isDone ? "task-done" : "task"}>
-                {task.title}
-              </span>
+
+              <EditableSpan
+                title={task.title}
+                className={task.isDone ? "task-done" : "task"}
+                onChange={(title) => editTaskHandler(task.id, title)}
+              />
               <Button onClick={removeTaskHandler} title="x" />
             </li>
           );
@@ -71,63 +82,28 @@ export const TodoList = ({
     removeTodolist(todolistId);
   };
 
-  const addNewTaskHandler = () => {
-    const trimmedTitle = taskTitle.trim();
-    if (trimmedTitle) {
-      addTask(todolistId, trimmedTitle);
-    } else {
-      setInputError(true);
-      setTimeout(() => {
-        setInputError(false);
-      }, 3000);
-    }
-    setTaskTitle("");
+  const addTaskHandler = (title: string) => {
+    addTask(todolistId, title);
   };
 
-  const onKeyDownaddNewTaskHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && isAddTaskPosible) {
-      addNewTaskHandler();
-    }
-  };
-
-  const setTaskTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    inputError && setInputError(false);
-    setTaskTitle(e.currentTarget.value);
+  const editTodolistHandler = (title: string) => {
+    editTodolist(todolistId, title);
   };
 
   const changeFilterHandlerCreator = (filter: Filter) => {
     return () => changeFilter(todolistId, filter);
   };
 
-  const maxTitleLength = 15;
-  const isAddTaskPosible =
-    taskTitle.length && taskTitle.length <= maxTitleLength;
-
   return (
     <div className="todolist">
       <div className="todolist-header">
-        <TodoListHeader title={title} />
+        <h3>
+          <EditableSpan title={title} onChange={editTodolistHandler} />
+        </h3>
+        {/* <TodoListHeader title={title} /> */}
         <Button onClick={removeTodolistHandler} title="x" />
       </div>
-      <div>
-        <input
-          value={taskTitle}
-          className={inputError ? "input-error" : undefined}
-          onChange={setTaskTitleHandler}
-          onKeyDown={onKeyDownaddNewTaskHandler}
-        />
-        <Button
-          title="+"
-          onClick={addNewTaskHandler}
-          isDisabled={!isAddTaskPosible}
-        />
-        {!taskTitle.length && (
-          <p style={{ color: inputError ? "red" : "black" }}>
-            Please enter text
-          </p>
-        )}
-        {taskTitle.length > maxTitleLength && <p>Task title is too long</p>}
-      </div>
+      <AddItemForm addItem={addTaskHandler} />
       {tasksList}
       <div>
         <Button
