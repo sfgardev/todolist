@@ -1,8 +1,18 @@
 import { ChangeEvent } from "react";
 import { Filter } from "../App";
 import { AddItemForm } from "./AddItemForm";
-import { Button } from "./Button";
+// import { Button } from "./Button";
 import { EditableSpan } from "./EditableSpan";
+import {
+  Box,
+  Button,
+  Checkbox,
+  IconButton,
+  List,
+  ListItem,
+} from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { filterButtonContainerSx, getListItemSx } from "./Todolist.styles";
 
 type TodoListProps = {
   todolistId: string;
@@ -49,7 +59,7 @@ export const TodoList = ({
     tasksList = <span>Empty list</span>;
   } else {
     tasksList = (
-      <ul>
+      <List>
         {tasks.map((task) => {
           const removeTaskHandler = () => removeTask(todolistId, task.id);
           const changeStatusHandler = (e: ChangeEvent<HTMLInputElement>) =>
@@ -58,23 +68,32 @@ export const TodoList = ({
           //   editTask(todolistId, task.id, title);
 
           return (
-            <li key={task.id}>
-              <input
+            <ListItem key={task.id} sx={getListItemSx(task.isDone)}>
+              <div>
+                <Checkbox
+                  checked={task.isDone}
+                  onChange={changeStatusHandler}
+                />
+                {/* <input
                 type="checkbox"
                 checked={task.isDone}
                 onChange={changeStatusHandler}
-              />
+              /> */}
 
-              <EditableSpan
-                title={task.title}
-                className={task.isDone ? "task-done" : "task"}
-                onChange={(title) => editTaskHandler(task.id, title)}
-              />
-              <Button onClick={removeTaskHandler} title="x" />
-            </li>
+                <EditableSpan
+                  title={task.title}
+                  className={task.isDone ? "task-done" : "task"}
+                  onChange={(title) => editTaskHandler(task.id, title)}
+                />
+              </div>
+              <IconButton aria-label="delete" onClick={removeTaskHandler}>
+                <DeleteIcon />
+              </IconButton>
+              {/* <Button onClick={removeTaskHandler} title="x" /> */}
+            </ListItem>
           );
         })}
-      </ul>
+      </List>
     );
   }
 
@@ -101,12 +120,36 @@ export const TodoList = ({
           <EditableSpan title={title} onChange={editTodolistHandler} />
         </h3>
         {/* <TodoListHeader title={title} /> */}
-        <Button onClick={removeTodolistHandler} title="x" />
+        <IconButton aria-label="delete" onClick={removeTodolistHandler}>
+          <DeleteIcon />
+        </IconButton>
+        {/* <Button onClick={removeTodolistHandler} title="x" /> */}
       </div>
       <AddItemForm addItem={addTaskHandler} />
       {tasksList}
-      <div>
+      <Box sx={filterButtonContainerSx}>
         <Button
+          variant={filter === "all" ? "outlined" : "contained"}
+          color="secondary"
+          onClick={changeFilterHandlerCreator("all")}
+        >
+          All
+        </Button>
+        <Button
+          variant={filter === "active" ? "outlined" : "contained"}
+          color="error"
+          onClick={changeFilterHandlerCreator("active")}
+        >
+          Active
+        </Button>
+        <Button
+          variant={filter === "completed" ? "outlined" : "contained"}
+          color="primary"
+          onClick={changeFilterHandlerCreator("completed")}
+        >
+          Completed
+        </Button>
+        {/* <Button
           className={filter === "all" ? "active-filter" : undefined}
           title="All"
           onClick={changeFilterHandlerCreator("all")}
@@ -120,8 +163,8 @@ export const TodoList = ({
           className={filter === "completed" ? "active-filter" : undefined}
           title="Completed"
           onClick={changeFilterHandlerCreator("completed")}
-        />
-      </div>
+        /> */}
+      </Box>
     </div>
   );
 };

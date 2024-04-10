@@ -1,3 +1,4 @@
+import { TextField } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 
 type EditableSpanProps = {
@@ -33,14 +34,23 @@ export const EditableSpan = ({
   };
 
   return isEdit ? (
-    <input
-      type="text"
+    <TextField
+      label="Enter a title"
+      variant="outlined"
       value={text}
       ref={handleInputFocus}
+      size={"small"}
       onChange={handleChange}
       onBlur={handleStopEdit}
     />
   ) : (
+    // <input
+    //   type="text"
+    //   value={text}
+    //   ref={handleInputFocus}
+    //   onChange={handleChange}
+    //   onBlur={handleStopEdit}
+    // />
     <span className={className} onDoubleClick={handleStartEdit}>
       {title}
     </span>

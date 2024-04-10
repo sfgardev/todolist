@@ -1,5 +1,9 @@
+// import { Button } from "@mui/material";
+// import { Button } from "./Button";
 import { ChangeEvent, KeyboardEvent, useState } from "react";
-import { Button } from "./Button";
+import Button from "@mui/material/Button";
+import { IconButton, TextField } from "@mui/material";
+import AddBoxIcon from "@mui/icons-material/AddBox";
 
 type AddItemFormProps = {
   addItem: (title: string) => void;
@@ -39,20 +43,47 @@ export const AddItemForm = ({ addItem }: AddItemFormProps) => {
 
   return (
     <div>
-      <input
+      <TextField
+        
+        label="Enter a title"
+        variant="outlined"
+        error={inputError}
+        // className={inputError ? "input-error" : undefined}
+        value={taskTitle}
+        helperText={inputError ? "Title is required" : ""}
+        size={"small"}
+        onChange={setTaskTitleHandler}
+        onKeyDown={onKeyDownaddNewTaskHandler}
+      />
+      {/* <input
         value={taskTitle}
         className={inputError ? "input-error" : undefined}
         onChange={setTaskTitleHandler}
         onKeyDown={onKeyDownaddNewTaskHandler}
-      />
-      <Button
+      /> */}
+      {/* <Button
+        variant="contained"
+        onClick={addNewTaskHandler}
+        disabled={!isAddTaskPosible}
+      >
+        +
+      </Button> */}
+      <IconButton
+        disabled={!isAddTaskPosible}
+        onClick={addNewTaskHandler}
+        color={"primary"}
+      >
+        <AddBoxIcon />
+      </IconButton>
+
+      {/* <Button
         title="+"
         onClick={addNewTaskHandler}
         isDisabled={!isAddTaskPosible}
-      />
-      {!taskTitle.length && (
+      /> */}
+      {/* {!taskTitle.length && (
         <p style={{ color: inputError ? "red" : "black" }}>Please enter text</p>
-      )}
+      )} */}
       {taskTitle.length > maxTitleLength && <p>Task title is too long</p>}
     </div>
   );

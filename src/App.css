@@ -1,4 +1,4 @@
-.App {
+/* .App {
   padding: 30px;
   display: flex;
 }
@@ -18,7 +18,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
 .task-done {
   opacity: 0.5;
@@ -29,7 +29,7 @@
   font-weight: bold;
 }
 
-.active-filter {
+/* .active-filter {
   background-color: #4CAF50;
   color: aliceblue;
   border: 2px solid #7ed081;
@@ -37,4 +37,4 @@
 
 .input-error {
   border: 2px solid #9f685a;
-}
+} */
