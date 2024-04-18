@@ -1,28 +1,27 @@
-import { useState } from "react";
-import { v1 } from "uuid";
-import "./App.css";
-import { Task, TodoList } from "./components/TodoList";
-import { AddItemForm } from "./components/AddItemForm";
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
-  Button,
   Container,
   Grid,
   IconButton,
   Paper,
-  ScopedCssBaseline,
   Toolbar,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
+import { v1 } from "uuid";
+import "./App.css";
+import { AddItemForm } from "./components/AddItemForm";
 import { MenuButton } from "./components/MenuButton";
+import { Task, TodoList } from "./components/TodoList";
 
+import CssBaseline from "@mui/material/CssBaseline";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
-import CssBaseline from "@mui/material/CssBaseline";
 
 type ThemeMode = "dark" | "light";
 
 export type Filter = "all" | "active" | "completed";
+
 export type TodolistType = {
   id: string;
   title: string;
@@ -177,7 +176,7 @@ function App() {
             <MenuButton background={theme.palette.primary.dark}>
               Logout
             </MenuButton>
-            <MenuButton >Faq</MenuButton>
+            <MenuButton>Faq</MenuButton>
             <Switch onChange={handleThemeMode} color="default" />
           </div>
         </Toolbar>
