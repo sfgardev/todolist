@@ -1,9 +1,8 @@
 // import { Button } from "@mui/material";
 // import { Button } from "./Button";
-import { ChangeEvent, KeyboardEvent, useState } from "react";
-import Button from "@mui/material/Button";
-import { IconButton, TextField } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import { IconButton, TextField } from "@mui/material";
+import { ChangeEvent, KeyboardEvent, useState } from "react";
 
 type AddItemFormProps = {
   addItem: (title: string) => void;
@@ -44,7 +43,6 @@ export const AddItemForm = ({ addItem }: AddItemFormProps) => {
   return (
     <div>
       <TextField
-        
         label="Enter a title"
         variant="outlined"
         error={inputError}

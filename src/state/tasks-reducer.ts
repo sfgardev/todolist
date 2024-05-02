@@ -29,8 +29,20 @@ type ActionsType =
   | AddTodolistActionType
   | RemoveTodolistActionType;
 
+export const initialTasksState = {
+  // [todolistId1]: [
+  //   { id: v1(), title: "HTML&CSS", isDone: true },
+  //   { id: v1(), title: "JS", isDone: true },
+  //   { id: v1(), title: "ReactJS", isDone: false },
+  // ],
+  // [todolistId2]: [
+  //   { id: v1(), title: "Rest API", isDone: true },
+  //   { id: v1(), title: "GraphQL", isDone: false },
+  // ],
+};
+
 export const tasksReducer = (
-  state: TasksState,
+  state: TasksState = initialTasksState,
   action: ActionsType
 ): TasksState => {
   switch (action.type) {
@@ -75,7 +87,8 @@ export const tasksReducer = (
       delete updatedState[action.todolistId];
       return updatedState;
     default:
-      throw new Error("I don't understand this type");
+      // throw new Error("I don't understand this type");
+      return state;
   }
 };
 

@@ -29,19 +29,21 @@ export const EditableSpan = ({
     setIsEdit(false);
   };
 
-  const handleInputFocus = (node: HTMLInputElement | null) => {
-    node?.focus();
-  };
+  // const handleInputFocus = (node: HTMLInputElement | null) => {
+  //   node?.focus();
+  //   console.log("focus");
+  // };
 
   return isEdit ? (
     <TextField
       label="Enter a title"
       variant="outlined"
       value={text}
-      ref={handleInputFocus}
+      // ref={handleInputFocus}
       size={"small"}
       onChange={handleChange}
       onBlur={handleStopEdit}
+      autoFocus
     />
   ) : (
     // <input

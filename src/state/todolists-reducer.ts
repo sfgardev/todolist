@@ -1,9 +1,6 @@
 import { v1 } from "uuid";
 import { Filter, TodolistType } from "../App";
 
-const todolistId1 = v1();
-const todolistId2 = v1();
-
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>;
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>;
 export type ChangeTodolistTitleActionType = ReturnType<
@@ -13,19 +10,19 @@ export type ChangeTodolistFilterActionType = ReturnType<
   typeof changeTodolistFilterAC
 >;
 
-type ActionsType =
+export type ActionsType =
   | RemoveTodolistActionType
   | AddTodolistActionType
   | ChangeTodolistTitleActionType
   | ChangeTodolistFilterActionType;
 
-const initialState: TodolistType[] = [
-  { id: todolistId1, title: "What to learn", filter: "all" },
-  { id: todolistId2, title: "What to buy", filter: "all" },
+export const initialTodolistsState: TodolistType[] = [
+  // { id: todolistId1, title: "What to learn", filter: "all" },
+  // { id: todolistId2, title: "What to buy", filter: "all" },
 ];
 
 export const todolistsReducer = (
-  state: TodolistType[] = initialState,
+  state: TodolistType[] = initialTodolistsState,
   action: ActionsType
 ): TodolistType[] => {
   switch (action.type) {
@@ -51,7 +48,8 @@ export const todolistsReducer = (
           : todolist
       );
     default:
-      throw new Error("I don't understand this type");
+      // throw new Error("I don't understand this type");
+      return state;
   }
 };
 
