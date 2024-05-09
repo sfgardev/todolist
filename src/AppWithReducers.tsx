@@ -135,24 +135,25 @@ function AppWithReducers() {
             }
 
             return (
-              <Grid key={tl.id} item>
-                <Paper style={{ padding: "10px" }}>
-                  <Todolist
-                    key={tl.id}
-                    id={tl.id}
-                    title={tl.title}
-                    tasks={tasksForTodolist}
-                    removeTask={removeTask}
-                    changeFilter={changeFilter}
-                    addTask={addTask}
-                    changeTaskStatus={changeStatus}
-                    filter={tl.filter}
-                    removeTodolist={removeTodolist}
-                    changeTaskTitle={changeTaskTitle}
-                    changeTodolistTitle={changeTodolistTitle}
-                  />
-                </Paper>
-              </Grid>
+              <></>
+              // <Grid key={tl.id} item>
+              //   <Paper style={{ padding: "10px" }}>
+              //     <Todolist
+              //       key={tl.id}
+              //       id={tl.id}
+              //       title={tl.title}
+              //       tasks={tasksForTodolist}
+              //       removeTask={removeTask}
+              //       changeFilter={changeFilter}
+              //       addTask={addTask}
+              //       changeTaskStatus={changeStatus}
+              //       filter={tl.filter}
+              //       removeTodolist={removeTodolist}
+              //       changeTaskTitle={changeTaskTitle}
+              //       changeTodolistTitle={changeTodolistTitle}
+              //     />
+              //   </Paper>
+              // </Grid>
             );
           })}
         </Grid>
