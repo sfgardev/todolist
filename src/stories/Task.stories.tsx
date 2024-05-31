@@ -4,7 +4,8 @@ import { Provider, useSelector } from "react-redux";
 import { Task } from "../Task";
 import { AppRootStateType, store } from "../state/store";
 import { ReduxStoreProviderDecorator } from "../state/ReduxStoreProviderDecorator";
-import { TaskType } from "../Todolist";
+import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolist-api";
+// import { TaskType } from "../Todolist";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {
@@ -31,15 +32,37 @@ type Story = StoryObj<typeof Task>;
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const TaskIsNotDone: Story = {
   args: {
-    task: { id: "qwe", isDone: false, title: "CSS" },
-    todolistId: "asd",
+    task: {
+      id: "1",
+      status: TaskStatuses.New,
+      title: "CSS",
+      todolistId: "todolistId1",
+      startDate: "",
+      deadline: "",
+      addedDate: "",
+      order: 0,
+      priority: TaskPriorities.Low,
+      description: "",
+    },
+    todolistId: "todolist1",
   },
 };
 
 export const TaskIsDone: Story = {
   args: {
-    task: { id: "qwe", isDone: true, title: "JS" },
-    todolistId: "asd",
+    task: {
+      id: "2",
+      status: TaskStatuses.Completed,
+      title: "JS",
+      todolistId: "todolistId2",
+      startDate: "",
+      deadline: "",
+      addedDate: "",
+      order: 0,
+      priority: TaskPriorities.Low,
+      description: "",
+    },
+    todolistId: "todolistId2",
   },
 };
 

@@ -2,13 +2,13 @@ import { Delete } from "@mui/icons-material";
 import { Checkbox, IconButton } from "@mui/material";
 import { ChangeEvent, memo, useCallback } from "react";
 import { EditableSpan } from "./EditableSpan";
-import { TaskType } from "./Todolist";
 import { useDispatch } from "react-redux";
 import {
   changeTaskStatusAC,
   changeTaskTitleAC,
   removeTaskAC,
 } from "./state/tasks-reducer";
+import { TaskStatuses, TaskType } from "./api/todolist-api";
 
 type TaskProps = {
   task: TaskType;
@@ -36,7 +36,9 @@ export const Task = memo((props: TaskProps) => {
   //props.changeTaskStatus(props.task.id, newIsDoneValue, props.todolistId)
   const onChangeHandler = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      let newIsDoneValue = e.currentTarget.checked;
+      let newIsDoneValue = e.currentTarget.checked
+        ? TaskStatuses.Completed
+        : TaskStatuses.New;
       dispatch(
         changeTaskStatusAC(props.task.id, newIsDoneValue, props.todolistId)
       );
@@ -53,9 +55,11 @@ export const Task = memo((props: TaskProps) => {
   );
 
   return (
-    <div className={props.task.isDone ? "is-done" : ""}>
+    <div
+      className={props.task.status === TaskStatuses.Completed ? "is-done" : ""}
+    >
       <Checkbox
-        checked={props.task.isDone}
+        checked={props.task.status === TaskStatuses.Completed}
         color="primary"
         onChange={onChangeHandler}
       />

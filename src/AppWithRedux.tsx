@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { v1 } from "uuid";
 import { AddItemForm } from "./AddItemForm";
 import "./App.css";
-import { TaskType, Todolist } from "./Todolist";
+import { Todolist } from "./Todolist";
 import { AppRootStateType } from "./state/store";
 import {
   addTaskAC,
@@ -23,18 +23,14 @@ import {
   removeTaskAC,
 } from "./state/tasks-reducer";
 import {
+  FilterValuesType,
+  TodolistEntityType,
   addTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
   removeTodolistAC,
 } from "./state/todolists-reducer";
-
-export type FilterValuesType = "all" | "active" | "completed";
-export type TodolistType = {
-  id: string;
-  title: string;
-  filter: FilterValuesType;
-};
+import { TaskStatuses, TaskType } from "./api/todolist-api";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
@@ -44,7 +40,7 @@ function AppWithRedux() {
   let todolistId1 = v1();
   let todolistId2 = v1();
 
-  const todolists = useSelector<AppRootStateType, Array<TodolistType>>(
+  const todolists = useSelector<AppRootStateType, Array<TodolistEntityType>>(
     (state) => state.todolists
   );
   const tasks = useSelector<AppRootStateType, TasksStateType>(
@@ -69,8 +65,8 @@ function AppWithRedux() {
   );
 
   const changeStatus = useCallback(
-    function (id: string, isDone: boolean, todolistId: string) {
-      const action = changeTaskStatusAC(id, isDone, todolistId);
+    function (id: string, status: TaskStatuses, todolistId: string) {
+      const action = changeTaskStatusAC(id, status, todolistId);
       dispatch(action);
     },
     [dispatch]
