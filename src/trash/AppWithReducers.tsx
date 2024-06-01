@@ -1,36 +1,30 @@
-import React, { useReducer, useState } from "react";
-import "./App.css";
-import { Todolist } from "./Todolist";
+import { useReducer } from "react";
 import { v1 } from "uuid";
-import { AddItemForm } from "./AddItemForm";
+import { AddItemForm } from "../components/AddItemForm/AddItemForm";
+import "./App.css";
 
-import {
-  FilterValuesType,
-  addTodolistAC,
-  changeTodolistFilterAC,
-  changeTodolistTitleAC,
-  removeTodolistAC,
-  todolistsReducer,
-} from "./state/todolists-reducer";
-import {
-  addTaskAC,
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-  tasksReducer,
-} from "./state/tasks-reducer";
+import { Menu } from "@mui/icons-material";
 import {
   AppBar,
   Button,
   Container,
   Grid,
   IconButton,
-  Paper,
   Toolbar,
-  Typography,
+  Typography
 } from "@mui/material";
-import { Menu } from "@mui/icons-material";
-import { TaskPriorities, TaskStatuses, TaskType } from "./api/todolist-api";
+import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolist-api";
+import {
+  removeTaskAC,
+  tasksReducer
+} from "../features/Todos/tasks-reducer";
+import {
+  FilterValuesType,
+  changeTodolistFilterAC,
+  changeTodolistTitleAC,
+  removeTodolistAC,
+  todolistsReducer
+} from "../features/Todos/todolists-reducer";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
@@ -63,7 +57,7 @@ function AppWithReducers() {
         id: v1(),
         title: "HTML&CSS",
         status: TaskStatuses.Completed,
-        todolistId: todolistId1,
+        todoListId: todolistId1,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -75,7 +69,7 @@ function AppWithReducers() {
         id: v1(),
         title: "JS",
         status: TaskStatuses.Completed,
-        todolistId: todolistId1,
+        todoListId: todolistId1,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -89,7 +83,7 @@ function AppWithReducers() {
         id: v1(),
         title: "Milk",
         status: TaskStatuses.Completed,
-        todolistId: todolistId2,
+        todoListId: todolistId2,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -101,7 +95,7 @@ function AppWithReducers() {
         id: v1(),
         title: "React Book",
         status: TaskStatuses.Completed,
-        todolistId: todolistId2,
+        todoListId: todolistId2,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -118,18 +112,18 @@ function AppWithReducers() {
   }
 
   function addTask(title: string, todolistId: string) {
-    const action = addTaskAC(title, todolistId);
-    dispatchToTasks(action);
+    // const action = addTaskAC(title, todolistId);
+    // dispatchToTasks(action);
   }
 
   function changeStatus(id: string, status: TaskStatuses, todolistId: string) {
-    const action = changeTaskStatusAC(id, status, todolistId);
-    dispatchToTasks(action);
+    // const action = changeTaskStatusAC(id, status, todolistId);
+    // dispatchToTasks(action);
   }
 
   function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
-    const action = changeTaskTitleAC(id, newTitle, todolistId);
-    dispatchToTasks(action);
+    // const action = changeTaskTitleAC(id, newTitle, todolistId);
+    // dispatchToTasks(action);
   }
 
   function changeFilter(value: FilterValuesType, todolistId: string) {
@@ -149,9 +143,9 @@ function AppWithReducers() {
   }
 
   function addTodolist(title: string) {
-    const action = addTodolistAC(title);
-    dispatchToTasks(action);
-    dispatchToTodolists(action);
+    // const action = addTodolistAC(title);
+    // dispatchToTasks(action);
+    // dispatchToTodolists(action);
   }
 
   return (

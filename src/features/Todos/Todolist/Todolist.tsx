@@ -1,36 +1,31 @@
 import { Delete } from "@mui/icons-material";
 import { Button, ButtonProps, IconButton } from "@mui/material";
-import { memo, useCallback, useMemo } from "react";
-import { AddItemForm } from "./AddItemForm";
-import { EditableSpan } from "./EditableSpan";
-import { Task } from "./Task";
-import { TaskStatuses, TaskType } from "./api/todolist-api";
-import { FilterValuesType } from "./state/todolists-reducer";
+import { memo, useCallback, useEffect, useMemo } from "react";
+import { AddItemForm } from "../../../components/AddItemForm/AddItemForm";
+import { EditableSpan } from "../../../components/EditableSpan/EditableSpan";
+import { Task } from "./Task/Task";
+import { TaskStatuses, TaskType } from "../../../api/todolist-api";
+import { FilterValuesType } from "../todolists-reducer";
+import { useAppDispatch } from "../../../app/store";
+import { getTasksTC } from "../tasks-reducer";
 
 type PropsType = {
   id: string;
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (taskId: string, todolistId: string) => void;
   changeFilter: (value: FilterValuesType, todolistId: string) => void;
   addTask: (title: string, todolistId: string) => void;
-  changeTaskStatus: (
-    id: string,
-    status: TaskStatuses,
-    todolistId: string
-  ) => void;
   removeTodolist: (id: string) => void;
   changeTodolistTitle: (id: string, newTitle: string) => void;
   filter: FilterValuesType;
-  changeTaskTitle: (
-    taskId: string,
-    newTitle: string,
-    todolistId: string
-  ) => void;
 };
 
 export const Todolist = memo(function (props: PropsType) {
-  console.log("Todolist");
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getTasksTC(props.id));
+  }, []);
 
   const addTask = useCallback(
     (title: string) => {
@@ -62,10 +57,7 @@ export const Todolist = memo(function (props: PropsType) {
     [props.changeFilter, props.id]
   );
 
-  // let tasks = props.tasks;
-
   const memoTasks = useMemo(() => {
-    console.log("useMemo");
     if (props.filter === "active") {
       return props.tasks.filter((t) => t.status === TaskStatuses.New);
     }
@@ -88,14 +80,7 @@ export const Todolist = memo(function (props: PropsType) {
       <AddItemForm addItem={addTask} />
       <div>
         {memoTasks.map((task) => (
-          <Task
-            key={task.id}
-            task={task}
-            todolistId={props.id}
-            // changeTaskStatus={props.changeTaskStatus}
-            // changeTaskTitle={props.changeTaskTitle}
-            // removeTask={props.removeTask}
-          />
+          <Task key={task.id} task={task} todolistId={props.id} />
         ))}
       </div>
       <div style={{ paddingTop: "10px" }}>
@@ -135,7 +120,6 @@ type MyButtonProps = {
 //   return <Button {...props}>{buttonCaption}</Button>;
 // });
 const MyButton = memo(({ variant, color, title, onClick }: MyButtonProps) => {
-  console.log("MyButton");
   return (
     <Button variant={variant} onClick={onClick} color={color}>
       {title}

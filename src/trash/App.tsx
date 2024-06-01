@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import { v1 } from "uuid";
-import { AddItemForm } from "./AddItemForm";
+import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import {
   AppBar,
   Button,
@@ -18,11 +18,11 @@ import {
   TaskStatuses,
   TaskType,
   TodolistType,
-} from "./api/todolist-api";
+} from "../api/todolist-api";
 import {
   FilterValuesType,
   TodolistEntityType,
-} from "./state/todolists-reducer";
+} from "../features/Todos/todolists-reducer";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
@@ -55,7 +55,7 @@ function App() {
         id: v1(),
         title: "HTML&CSS",
         status: TaskStatuses.Completed,
-        todolistId: todolistId1,
+        todoListId: todolistId1,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -67,7 +67,7 @@ function App() {
         id: v1(),
         title: "JS",
         status: TaskStatuses.Completed,
-        todolistId: todolistId1,
+        todoListId: todolistId1,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -81,7 +81,7 @@ function App() {
         id: v1(),
         title: "Milk",
         status: TaskStatuses.Completed,
-        todolistId: todolistId2,
+        todoListId: todolistId2,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -93,7 +93,7 @@ function App() {
         id: v1(),
         title: "React Book",
         status: TaskStatuses.Completed,
-        todolistId: todolistId2,
+        todoListId: todolistId2,
         startDate: "",
         deadline: "",
         addedDate: "",
@@ -113,12 +113,12 @@ function App() {
     setTasks({ ...tasks });
   }
 
-  function addTask(title: string, todolistId: string) {
+  function addTask(title: string, todoListId: string) {
     let task = {
       id: v1(),
       title,
       status: TaskStatuses.New,
-      todolistId,
+      todoListId,
       startDate: "",
       deadline: "",
       addedDate: "",
@@ -127,9 +127,9 @@ function App() {
       description: "",
     };
     //достанем нужный массив по todolistId:
-    let todolistTasks = tasks[todolistId];
+    let todolistTasks = tasks[todoListId];
     // перезапишем в этом объекте массив для нужного тудулиста копией, добавив в начало новую таску:
-    tasks[todolistId] = [task, ...todolistTasks];
+    tasks[todoListId] = [task, ...todolistTasks];
     // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
     setTasks({ ...tasks });
   }

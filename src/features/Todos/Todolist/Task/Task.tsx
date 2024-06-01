@@ -1,37 +1,24 @@
 import { Delete } from "@mui/icons-material";
 import { Checkbox, IconButton } from "@mui/material";
 import { ChangeEvent, memo, useCallback } from "react";
-import { EditableSpan } from "./EditableSpan";
-import { useDispatch } from "react-redux";
-import {
-  changeTaskStatusAC,
-  changeTaskTitleAC,
-  removeTaskAC,
-} from "./state/tasks-reducer";
-import { TaskStatuses, TaskType } from "./api/todolist-api";
+import { TaskStatuses, TaskType } from "../../../../api/todolist-api";
+import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan";
+import { useAppDispatch } from "../../../../app/store";
+import { removeTaskTC, updateTaskTC } from "../../tasks-reducer";
 
 type TaskProps = {
   task: TaskType;
   todolistId: string;
-  //   removeTask: (taskId: string, todolistId: string) => void;
-  //   changeTaskStatus: (id: string, isDone: boolean, todolistId: string) => void;
-  //   changeTaskTitle: (
-  //     taskId: string,
-  //     newTitle: string,
-  //     todolistId: string
-  //   ) => void;
 };
 
 export const Task = memo((props: TaskProps) => {
-  console.log("Task");
-
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   //props.removeTask(props.task.id, props.todolistId)
-  const onClickHandler = useCallback(
-    () => dispatch(removeTaskAC(props.task.id, props.todolistId)),
-    [props.task.id, props.todolistId, dispatch]
-  );
+  const onClickHandler = useCallback(() => {
+    // dispatch(removeTaskAC(props.task.id, props.todolistId));
+    dispatch(removeTaskTC(props.todolistId, props.task.id));
+  }, [props.task.id, props.todolistId, dispatch]);
 
   //props.changeTaskStatus(props.task.id, newIsDoneValue, props.todolistId)
   const onChangeHandler = useCallback(
@@ -39,8 +26,13 @@ export const Task = memo((props: TaskProps) => {
       let newIsDoneValue = e.currentTarget.checked
         ? TaskStatuses.Completed
         : TaskStatuses.New;
+      // dispatch(
+      //   changeTaskStatusAC(props.task.id, newIsDoneValue, props.todolistId)
+      // );
       dispatch(
-        changeTaskStatusAC(props.task.id, newIsDoneValue, props.todolistId)
+        updateTaskTC(props.todolistId, props.task.id, {
+          status: newIsDoneValue,
+        })
       );
     },
     [props.task.id, props.todolistId, dispatch]
@@ -49,7 +41,10 @@ export const Task = memo((props: TaskProps) => {
   //props.changeTaskTitle(props.task.id, newValue, props.todolistId)
   const onTitleChangeHandler = useCallback(
     (newValue: string) => {
-      dispatch(changeTaskTitleAC(props.task.id, newValue, props.todolistId));
+      // dispatch(changeTaskTitleAC(props.task.id, newValue, props.todolistId));
+      dispatch(
+        updateTaskTC(props.todolistId, props.task.id, { title: newValue })
+      );
     },
     [props.task.id, props.todolistId, dispatch]
   );

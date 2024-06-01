@@ -5,7 +5,7 @@ import { AddBox } from "@mui/icons-material";
 import { IconButton, TextField } from "@mui/material";
 import { action } from "@storybook/addon-actions";
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
-import { AddItemForm } from "../AddItemForm";
+import { AddItemForm } from "./AddItemForm";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof AddItemForm> = {

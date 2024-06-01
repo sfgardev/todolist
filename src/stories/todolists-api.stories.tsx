@@ -265,12 +265,12 @@ export const UpdateTaskTitle = () => {
   // }, []);
 
   const handleUpdateTaskTitle = () => {
-    todolistAPI.updateTask(todolistId, taskId, title).then((res) => {
-      setState(res.data);
-    });
-    setTodolistId("");
-    setTaskId("");
-    setTitle("");
+    // todolistAPI.updateTask(todolistId, taskId, title).then((res) => {
+    //   setState(res.data);
+    // });
+    // setTodolistId("");
+    // setTaskId("");
+    // setTitle("");
   };
 
   return (

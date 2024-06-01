@@ -1,10 +1,14 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { Provider, useSelector } from "react-redux";
-import { Task } from "../Task";
-import { AppRootStateType, store } from "../state/store";
-import { ReduxStoreProviderDecorator } from "../state/ReduxStoreProviderDecorator";
-import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolist-api";
+import { useSelector } from "react-redux";
+import {
+  TaskPriorities,
+  TaskStatuses,
+  TaskType,
+} from "../../../../api/todolist-api";
+import { ReduxStoreProviderDecorator } from "../../../../app/ReduxStoreProviderDecorator";
+import { AppRootStateType } from "../../../../app/store";
+import { Task } from "../Task/Task";
 // import { TaskType } from "../Todolist";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -36,7 +40,7 @@ export const TaskIsNotDone: Story = {
       id: "1",
       status: TaskStatuses.New,
       title: "CSS",
-      todolistId: "todolistId1",
+      todoListId: "todolistId1",
       startDate: "",
       deadline: "",
       addedDate: "",
@@ -54,7 +58,7 @@ export const TaskIsDone: Story = {
       id: "2",
       status: TaskStatuses.Completed,
       title: "JS",
-      todolistId: "todolistId2",
+      todoListId: "todolistId2",
       startDate: "",
       deadline: "",
       addedDate: "",
