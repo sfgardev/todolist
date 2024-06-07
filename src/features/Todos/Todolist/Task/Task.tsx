@@ -2,8 +2,8 @@ import { Delete } from "@mui/icons-material";
 import { Checkbox, IconButton } from "@mui/material";
 import { ChangeEvent, memo, useCallback } from "react";
 import { TaskStatuses, TaskType } from "../../../../api/todolist-api";
-import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan";
 import { useAppDispatch } from "../../../../app/store";
+import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan";
 import { removeTaskTC, updateTaskTC } from "../../tasks-reducer";
 
 type TaskProps = {

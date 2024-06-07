@@ -1,10 +1,8 @@
 import { Dispatch } from "redux";
 import {
-  TaskPriorities,
-  TaskStatuses,
   TaskType,
-  UpdateTaskModelType,
-  todolistAPI,
+  UpdateDomainTaskModelType,
+  todolistAPI
 } from "../../api/todolist-api";
 import { AppRootStateType } from "../../app/store";
 import {
@@ -78,7 +76,7 @@ export const addTaskAC = (task: TaskType) =>
 export const updateTaskAC = (
   todolistId: string,
   taskId: string,
-  model: UpdateDomainTaskModelType
+  model: Partial<UpdateDomainTaskModelType>
 ) => ({ type: "UPDATE-TASK", todolistId, taskId, model }) as const;
 
 export const setTasksAC = (todolistId: string, tasks: TaskType[]) =>
@@ -111,14 +109,18 @@ export const createTaskTC =
   };
 
 export const updateTaskTC =
-  (todolistId: string, taskId: string, model: UpdateDomainTaskModelType) =>
+  (
+    todolistId: string,
+    taskId: string,
+    model: Partial<UpdateDomainTaskModelType>
+  ) =>
   (dispatch: Dispatch<ActionsType>, getState: () => AppRootStateType) => {
     const tasks = getState().tasks;
     const task = tasks[todolistId].find((task) => task.id === taskId);
 
     if (!task) return;
 
-    const apiModel: UpdateTaskModelType = {
+    const apiModel: UpdateDomainTaskModelType = {
       deadline: task.deadline,
       description: task.description,
       priority: task.priority,
@@ -137,14 +139,16 @@ export type TasksStateType = {
   [key: string]: Array<TaskType>;
 };
 
-type UpdateDomainTaskModelType = {
-  title?: string;
-  description?: string;
-  status?: TaskStatuses;
-  priority?: TaskPriorities;
-  startDate?: string;
-  deadline?: string;
-};
+// type UpdateDomainTaskModelType = {
+//   title?: string;
+//   description?: string;
+//   status?: TaskStatuses;
+//   priority?: TaskPriorities;
+//   startDate?: string;
+//   deadline?: string;
+// };
+
+// type UpdateDomainTaskModelType = Omit<TaskType, 'id' | 'todoListId' | 'addedDate'>
 
 // types
 type ActionsType =
