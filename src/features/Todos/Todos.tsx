@@ -15,7 +15,11 @@ import {
   createTodolistTC,
 } from "./todolists-reducer";
 
-export const Todos = () => {
+type TodosProps = {
+  demo?: boolean;
+};
+
+export const Todos = ({ demo = false }: TodosProps) => {
   const todolists = useSelector<AppRootStateType, Array<TodolistEntityType>>(
     (state) => state.todolists
   );
@@ -26,8 +30,10 @@ export const Todos = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getTodolistsTC());
-  }, [dispatch]);
+    if (!demo) {
+      dispatch(getTodolistsTC());
+    }
+  }, []);
 
   const addTask = useCallback(
     function (title: string, todolistId: string) {
@@ -92,6 +98,8 @@ export const Todos = () => {
                   filter={tl.filter}
                   removeTodolist={removeTodolist}
                   changeTodolistTitle={changeTodolistTitle}
+                  entityStatus={tl.entityStatus}
+                  demo={demo}
                 />
               </Paper>
             </Grid>

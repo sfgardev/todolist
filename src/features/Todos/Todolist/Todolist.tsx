@@ -1,30 +1,37 @@
 import { Delete } from "@mui/icons-material";
 import { Button, ButtonProps, IconButton } from "@mui/material";
 import { memo, useCallback, useEffect, useMemo } from "react";
+import { TaskStatuses } from "../../../api/todolist-api";
+import { RequestStatusType } from "../../../app/app-reducer";
+import { useAppDispatch } from "../../../app/store";
 import { AddItemForm } from "../../../components/AddItemForm/AddItemForm";
 import { EditableSpan } from "../../../components/EditableSpan/EditableSpan";
-import { Task } from "./Task/Task";
-import { TaskStatuses, TaskType } from "../../../api/todolist-api";
+import { TaskEntityType, getTasksTC } from "../tasks-reducer";
 import { FilterValuesType } from "../todolists-reducer";
-import { useAppDispatch } from "../../../app/store";
-import { getTasksTC } from "../tasks-reducer";
+import { Task } from "./Task/Task";
 
 type PropsType = {
   id: string;
   title: string;
-  tasks: Array<TaskType>;
+  tasks: Array<TaskEntityType>;
+  filter: FilterValuesType;
+  demo?: boolean;
+  entityStatus: RequestStatusType;
   changeFilter: (value: FilterValuesType, todolistId: string) => void;
   addTask: (title: string, todolistId: string) => void;
   removeTodolist: (id: string) => void;
   changeTodolistTitle: (id: string, newTitle: string) => void;
-  filter: FilterValuesType;
 };
 
-export const Todolist = memo(function (props: PropsType) {
+export const Todolist = memo(function ({ demo = false, ...props }: PropsType) {
   const dispatch = useAppDispatch();
 
+  const isDisabled = props.entityStatus === "loading";
+
   useEffect(() => {
-    dispatch(getTasksTC(props.id));
+    if (!demo) {
+      dispatch(getTasksTC(props.id));
+    }
   }, []);
 
   const addTask = useCallback(
@@ -72,12 +79,16 @@ export const Todolist = memo(function (props: PropsType) {
     <div>
       <h3>
         {" "}
-        <EditableSpan value={props.title} onChange={changeTodolistTitle} />
-        <IconButton onClick={removeTodolist}>
+        <EditableSpan
+          value={props.title}
+          onChange={changeTodolistTitle}
+          disabled={isDisabled}
+        />
+        <IconButton onClick={removeTodolist} disabled={isDisabled}>
           <Delete />
         </IconButton>
       </h3>
-      <AddItemForm addItem={addTask} />
+      <AddItemForm addItem={addTask} disabled={isDisabled} />
       <div>
         {memoTasks.map((task) => (
           <Task key={task.id} task={task} todolistId={props.id} />

@@ -5,17 +5,17 @@ import {
   todolistsReducer,
 } from "./todolists-reducer";
 import { tasksReducer } from "./tasks-reducer";
-import { TasksStateType } from "../../trash/App";
+import { TasksStateType } from "../Todos/tasks-reducer";
 
 test("ids should be equals", () => {
   const startTasksState: TasksStateType = {};
   const startTodolistsState: Array<TodolistEntityType> = [];
 
   const action = addTodolistAC({
-    addedDate: '',
-    id: '1',
+    addedDate: "",
+    id: "1",
     order: 0,
-    title: "new todolist"
+    title: "new todolist",
   });
 
   const endTasksState = tasksReducer(startTasksState, action);

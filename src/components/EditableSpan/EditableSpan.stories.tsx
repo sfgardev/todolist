@@ -26,3 +26,7 @@ type Story = StoryObj<typeof EditableSpan>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const EditableSpanStory: Story = {};
+
+export const EditableSpanDisabled = () => {
+  return <EditableSpan value="123" onChange={() => {}} disabled={true} />;
+};

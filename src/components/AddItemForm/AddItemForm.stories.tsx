@@ -86,3 +86,7 @@ export const AddItemFormErrorStory: Story = {
     );
   },
 };
+
+export const AddItemFormDisbled = () => {
+  return <AddItemForm addItem={() => {}} disabled={true} />;
+};

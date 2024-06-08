@@ -11,24 +11,21 @@ import {
   Grid,
   IconButton,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
-import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolist-api";
-import {
-  removeTaskAC,
-  tasksReducer
-} from "../features/Todos/tasks-reducer";
+import { TaskPriorities, TaskStatuses } from "../api/todolist-api";
+import { removeTaskAC, tasksReducer } from "../features/Todos/tasks-reducer";
 import {
   FilterValuesType,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
   removeTodolistAC,
-  todolistsReducer
+  todolistsReducer,
 } from "../features/Todos/todolists-reducer";
 
-export type TasksStateType = {
-  [key: string]: Array<TaskType>;
-};
+// export type TasksStateType = {
+//   [key: string]: Array<TaskType>;
+// };
 
 function AppWithReducers() {
   let todolistId1 = v1();
@@ -41,6 +38,7 @@ function AppWithReducers() {
       filter: "all",
       addedDate: "",
       order: 0,
+      entityStatus: "idle",
     },
     {
       id: todolistId2,
@@ -48,6 +46,7 @@ function AppWithReducers() {
       filter: "all",
       addedDate: "",
       order: 0,
+      entityStatus: "idle",
     },
   ]);
 
@@ -64,6 +63,7 @@ function AppWithReducers() {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
       {
         id: v1(),
@@ -76,6 +76,7 @@ function AppWithReducers() {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
     ],
     [todolistId2]: [
@@ -90,6 +91,7 @@ function AppWithReducers() {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
       {
         id: v1(),
@@ -102,6 +104,7 @@ function AppWithReducers() {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
     ],
   });

@@ -3,6 +3,7 @@ import { TextField } from "@mui/material";
 
 type EditableSpanPropsType = {
   value: string;
+  disabled?: boolean;
   onChange: (newValue: string) => void;
 };
 
@@ -28,6 +29,7 @@ export const EditableSpan = memo(function (props: EditableSpanPropsType) {
       onChange={changeTitle}
       autoFocus
       onBlur={activateViewMode}
+      disabled={props.disabled}
     />
   ) : (
     <span onDoubleClick={activateEditMode}>{props.value}</span>

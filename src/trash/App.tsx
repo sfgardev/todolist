@@ -39,6 +39,7 @@ function App() {
       filter: "all",
       addedDate: "",
       order: 0,
+      entityStatus: "idle",
     },
     {
       id: todolistId2,
@@ -46,6 +47,7 @@ function App() {
       filter: "all",
       addedDate: "",
       order: 0,
+      entityStatus: "idle",
     },
   ]);
 
@@ -195,6 +197,7 @@ function App() {
       filter: "all",
       addedDate: "",
       order: 0,
+      entityStatus: "idle",
     };
     setTodolists([newTodolist, ...todolists]);
     setTasks({

@@ -26,4 +26,8 @@ export default meta;
 type Story = StoryObj<typeof AppWithRedux>;
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
-export const AppWithReduxStory: Story = {};
+export const AppWithReduxStory: Story = {
+  args: {
+    demo: true,
+  },
+};

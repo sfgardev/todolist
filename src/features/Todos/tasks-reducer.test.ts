@@ -1,4 +1,4 @@
-import { TasksStateType } from "../../trash/App";
+import { TasksStateType, setTaskEntityStatus } from "../Todos/tasks-reducer";
 import { TaskPriorities, TaskStatuses } from "../../api/todolist-api";
 import {
   addTaskAC,
@@ -26,6 +26,7 @@ beforeEach(() => {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
       {
         id: "2",
@@ -38,6 +39,7 @@ beforeEach(() => {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
       {
         id: "3",
@@ -50,6 +52,7 @@ beforeEach(() => {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
     ],
     todolistId2: [
@@ -65,6 +68,7 @@ beforeEach(() => {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
       {
         id: "2",
@@ -77,6 +81,7 @@ beforeEach(() => {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
       {
         id: "3",
@@ -89,6 +94,7 @@ beforeEach(() => {
         order: 0,
         priority: TaskPriorities.Low,
         description: "",
+        entityStatus: "idle",
       },
     ],
   };
@@ -172,4 +178,12 @@ test("propertry with todolistId should be deleted", () => {
 
   expect(keys.length).toBe(1);
   expect(endState["todolistId2"]).not.toBeDefined();
+});
+test("correct task entity status should be set", () => {
+  const endState = tasksReducer(
+    startState,
+    setTaskEntityStatus("todolistId1", "2", "loading")
+  );
+
+  expect(endState["todolistId1"][1].entityStatus).toBe("loading");
 });

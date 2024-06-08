@@ -1,13 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { useSelector } from "react-redux";
-import {
-  TaskPriorities,
-  TaskStatuses,
-  TaskType,
-} from "../../../../api/todolist-api";
+import { TaskPriorities, TaskStatuses } from "../../../../api/todolist-api";
 import { ReduxStoreProviderDecorator } from "../../../../app/ReduxStoreProviderDecorator";
 import { AppRootStateType } from "../../../../app/store";
+import { TaskEntityType } from "../../tasks-reducer";
 import { Task } from "../Task/Task";
 // import { TaskType } from "../Todolist";
 
@@ -47,6 +44,7 @@ export const TaskIsNotDone: Story = {
       order: 0,
       priority: TaskPriorities.Low,
       description: "",
+      entityStatus: "idle",
     },
     todolistId: "todolist1",
   },
@@ -65,13 +63,14 @@ export const TaskIsDone: Story = {
       order: 0,
       priority: TaskPriorities.Low,
       description: "",
+      entityStatus: "idle",
     },
     todolistId: "todolistId2",
   },
 };
 
 const TaskWrapper = () => {
-  let task = useSelector<AppRootStateType, TaskType>(
+  let task = useSelector<AppRootStateType, TaskEntityType>(
     (state) => state.tasks["todolistId1"][0]
   );
 

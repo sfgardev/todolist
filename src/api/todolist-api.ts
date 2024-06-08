@@ -88,7 +88,7 @@ type GetTasksResponseType = {
   error: string | null;
 };
 
-type ResponseType<T = {}> = {
+export type ResponseType<T = {}> = {
   data: T;
   fieldErrors: string[];
   messages: string[];
