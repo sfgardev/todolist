@@ -1,7 +1,11 @@
 import { Grid, Paper } from "@mui/material";
 import { useEffect, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { AppRootStateType, useAppDispatch } from "../../app/store";
+import {
+  AppRootStateType,
+  useAppDispatch,
+  useAppSelector,
+} from "../../app/store";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { Todolist } from "./Todolist/Todolist";
 import { TasksStateType, createTaskTC } from "./tasks-reducer";
@@ -14,12 +18,14 @@ import {
   updateTodolistTC,
   createTodolistTC,
 } from "./todolists-reducer";
+import { Navigate } from "react-router-dom";
 
 type TodosProps = {
   demo?: boolean;
 };
 
 export const Todos = ({ demo = false }: TodosProps) => {
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
   const todolists = useSelector<AppRootStateType, Array<TodolistEntityType>>(
     (state) => state.todolists
   );
@@ -30,9 +36,9 @@ export const Todos = ({ demo = false }: TodosProps) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (!demo) {
-      dispatch(getTodolistsTC());
-    }
+    if (demo || !isLoggedIn) return;
+
+    dispatch(getTodolistsTC());
   }, []);
 
   const addTask = useCallback(
@@ -78,6 +84,8 @@ export const Todos = ({ demo = false }: TodosProps) => {
     },
     [dispatch]
   );
+
+  if (!isLoggedIn) return <Navigate to="/login" />;
 
   return (
     <>

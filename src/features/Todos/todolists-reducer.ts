@@ -9,6 +9,8 @@ import {
   handleServerAppError,
   handleServerNetworkError,
 } from "../../utils/error-utils";
+import { getTasksTC } from "./tasks-reducer";
+import { AppThunkDispatch } from "../../app/store";
 
 const initialState: Array<TodolistEntityType> = [];
 
@@ -48,6 +50,8 @@ export const todolistsReducer = (
           ? { ...todolist, entityStatus: action.status }
           : todolist
       );
+    case "CLEAR-DATA":
+      return [];
     default:
       return state;
   }
@@ -85,18 +89,28 @@ export const setTodolistEntityStatusAC = (
     status,
   }) as const;
 
+export const clearTodosDataAC = () => ({ type: "CLEAR-DATA" }) as const;
+
 // TC
 export const getTodolistsTC = () => {
-  return (dispatch: Dispatch<ActionsType>) =>
+  return (dispatch: AppThunkDispatch) => {
+    dispatch(setAppStatusAC("loading"));
     todolistAPI
       .getTodolists()
       .then((response) => {
         dispatch(setTodolistsAC(response.data));
         dispatch(setAppStatusAC("succeeded"));
+        return response.data;
+      })
+      .then((todos) => {
+        todos.forEach((todo) => {
+          dispatch(getTasksTC(todo.id));
+        });
       })
       .catch((error) => {
         handleServerNetworkError(error, dispatch);
       });
+  };
 };
 
 export const removeTodolistTC = (todolistId: string) => {
@@ -161,6 +175,7 @@ export const updateTodolistTC = (todolistId: string, title: string) => {
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>;
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>;
 export type SetTodolistsActionType = ReturnType<typeof setTodolistsAC>;
+export type ClearTodosDataActionType = ReturnType<typeof clearTodosDataAC>;
 
 type ActionsType =
   | RemoveTodolistActionType
@@ -169,7 +184,8 @@ type ActionsType =
   | ReturnType<typeof changeTodolistFilterAC>
   | SetTodolistsActionType
   | SetAppStatusActionType
-  | ReturnType<typeof setTodolistEntityStatusAC>;
+  | ReturnType<typeof setTodolistEntityStatusAC>
+  | ClearTodosDataActionType;
 
 export type FilterValuesType = "all" | "active" | "completed";
 export type TodolistEntityType = TodolistType & {

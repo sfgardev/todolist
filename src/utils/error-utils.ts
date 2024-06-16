@@ -1,11 +1,11 @@
 import { Dispatch } from "redux";
-import { ResponseType } from "../api/todolist-api";
 import {
   SetAppErrorActionType,
   SetAppStatusActionType,
   setAppErrorAC,
   setAppStatusAC,
 } from "../app/app-reducer";
+import { ResponseType } from "../api";
 
 export const handleServerAppError = <D>(
   data: ResponseType<D>,

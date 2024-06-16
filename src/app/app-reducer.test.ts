@@ -8,7 +8,7 @@ import {
 let statrState: InitialAppState;
 
 beforeEach(() => {
-  statrState = { status: "loading", error: null };
+  statrState = { status: "loading", error: null, isInitialized: false };
 });
 
 test("error message should be set", () => {

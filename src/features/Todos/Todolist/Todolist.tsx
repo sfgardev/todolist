@@ -29,9 +29,9 @@ export const Todolist = memo(function ({ demo = false, ...props }: PropsType) {
   const isDisabled = props.entityStatus === "loading";
 
   useEffect(() => {
-    if (!demo) {
-      dispatch(getTasksTC(props.id));
-    }
+    // if (!demo) {
+    //   dispatch(getTasksTC(props.id));
+    // }
   }, []);
 
   const addTask = useCallback(

@@ -7,6 +7,7 @@ import {
 import { AppRootStateType } from "../../app/store";
 import {
   AddTodolistActionType,
+  ClearTodosDataActionType,
   RemoveTodolistActionType,
   SetTodolistsActionType,
 } from "../Todos/todolists-reducer";
@@ -90,6 +91,8 @@ export const tasksReducer = (
             : task
         ),
       };
+    case "CLEAR-DATA":
+      return {};
     default:
       return state;
   }
@@ -264,4 +267,5 @@ type ActionsType =
   | ReturnType<typeof updateTaskAC>
   | SetAppStatusActionType
   | SetAppErrorActionType
-  | ReturnType<typeof setTaskEntityStatus>;
+  | ReturnType<typeof setTaskEntityStatus>
+  | ClearTodosDataActionType;

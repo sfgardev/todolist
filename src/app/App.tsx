@@ -1,15 +1,18 @@
-import "./App.css";
-import { Todos } from "../features/Todos/Todos";
+import { Menu } from "@mui/icons-material";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
+import IconButton from "@mui/material/IconButton";
 import LinearProgress from "@mui/material/LinearProgress";
-import { Menu } from "@mui/icons-material";
-import { useAppSelector } from "./store";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { Outlet } from "react-router-dom";
 import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar";
+import CircularProgress from "@mui/material/CircularProgress";
+import "./App.css";
+import { useAppDispatch, useAppSelector } from "./store";
+import { useEffect } from "react";
+import { authMeTC, logoutTC } from "../features/Login/auth-reducer";
 
 type AppProps = {
   demo?: boolean;
@@ -17,7 +20,33 @@ type AppProps = {
 
 function App({ demo = false }: AppProps) {
   const status = useAppSelector((state) => state.app.status);
+  const isInitialized = useAppSelector((state) => state.app.isInitialized);
+  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useAppDispatch();
   const isLoading = status === "loading";
+
+  useEffect(() => {
+    dispatch(authMeTC());
+  }, []);
+
+  const handleLogout = () => {
+    dispatch(logoutTC());
+  };
+
+  if (!isInitialized) {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          top: "30%",
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        <CircularProgress />
+      </div>
+    );
+  }
 
   return (
     <div className="App">
@@ -28,12 +57,16 @@ function App({ demo = false }: AppProps) {
             <Menu />
           </IconButton>
           <Typography variant="h6">News</Typography>
-          <Button color="inherit">Login</Button>
+          {isLoggedIn && (
+            <Button color="inherit" onClick={handleLogout}>
+              Log out
+            </Button>
+          )}
         </Toolbar>
         {isLoading && <LinearProgress />}
       </AppBar>
       <Container fixed>
-        <Todos demo={demo} />
+        <Outlet />
       </Container>
     </div>
   );
