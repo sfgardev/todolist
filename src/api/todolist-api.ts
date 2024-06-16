@@ -3,7 +3,7 @@ import axios from "axios";
 const settings = {
   withCredentials: true,
   headers: {
-    "API-KEY": "1a29ecc2-ab9c-42ea-aefe-c8cdd94fe0a2",
+    "API-KEY": process.env.REACT_APP_API_KEY,
   },
 };
 
