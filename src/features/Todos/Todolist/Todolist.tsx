@@ -2,12 +2,12 @@ import { Delete } from "@mui/icons-material";
 import { Button, ButtonProps, IconButton } from "@mui/material";
 import { memo, useCallback, useEffect, useMemo } from "react";
 import { TaskStatuses } from "../../../api/todolist-api";
-import { RequestStatusType } from "../../../app/app-reducer";
+import { RequestStatusType } from "../../../app/appSlice";
 import { useAppDispatch } from "../../../app/store";
 import { AddItemForm } from "../../../components/AddItemForm/AddItemForm";
 import { EditableSpan } from "../../../components/EditableSpan/EditableSpan";
-import { TaskEntityType, getTasksTC } from "../tasks-reducer";
-import { FilterValuesType } from "../todolists-reducer";
+import { TaskEntityType, getTasksTC } from "../tasksSlice";
+import { FilterValuesType } from "../todolistsSlice";
 import { Task } from "./Task/Task";
 
 type PropsType = {
@@ -90,7 +90,7 @@ export const Todolist = memo(function ({ demo = false, ...props }: PropsType) {
       </h3>
       <AddItemForm addItem={addTask} disabled={isDisabled} />
       <div>
-        {memoTasks.map((task) => (
+        {memoTasks?.map((task) => (
           <Task key={task.id} task={task} todolistId={props.id} />
         ))}
       </div>

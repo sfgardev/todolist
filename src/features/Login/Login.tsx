@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { loginTC } from "./auth-reducer";
+import { loginTC, selectIsLoggedIn } from "./authSlice";
 import { Navigate } from "react-router-dom";
 
 const renderErrorMessage = <T,>(
@@ -25,7 +25,9 @@ const renderErrorMessage = <T,>(
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  // const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
 
   const { errors, touched, handleSubmit, getFieldProps } = useFormik({
     initialValues: {

@@ -4,11 +4,7 @@ import { ChangeEvent, memo, useCallback } from "react";
 import { TaskStatuses } from "../../../../api/todolist-api";
 import { useAppDispatch } from "../../../../app/store";
 import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan";
-import {
-  TaskEntityType,
-  removeTaskTC,
-  updateTaskTC,
-} from "../../tasks-reducer";
+import { TaskEntityType, removeTaskTC, updateTaskTC } from "../../tasksSlice";
 
 type TaskProps = {
   task: TaskEntityType;

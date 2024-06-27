@@ -22,7 +22,7 @@ import {
 import {
   FilterValuesType,
   TodolistEntityType,
-} from "../features/Todos/todolists-reducer";
+} from "../features/Todos/todolistsSlice";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;

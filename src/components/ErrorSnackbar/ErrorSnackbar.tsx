@@ -1,10 +1,13 @@
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { setAppErrorAC } from "../../app/app-reducer";
+import { appActions, selectError } from "../../app/appSlice";
+// import { setAppErrorAC } from "../../app/app-reducer";
 
 export const ErrorSnackbar = () => {
-  const error = useAppSelector((state) => state.app.error);
+  const error = useAppSelector(selectError);
+  // const error = useAppSelector((state) => state.app.error);
+
   const dispatch = useAppDispatch();
 
   const handleClose = (
@@ -14,7 +17,7 @@ export const ErrorSnackbar = () => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(setAppErrorAC(null));
+    dispatch(appActions.setAppError({ error: null }));
   };
 
   return (

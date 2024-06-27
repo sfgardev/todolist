@@ -8,24 +8,28 @@ import {
 } from "../../app/store";
 import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { Todolist } from "./Todolist/Todolist";
-import { TasksStateType, createTaskTC } from "./tasks-reducer";
+import { TasksStateType, createTaskTC } from "./tasksSlice";
 import {
   TodolistEntityType,
   getTodolistsTC,
   FilterValuesType,
-  changeTodolistFilterAC,
+  // changeTodolistFilterAC,
   removeTodolistTC,
   updateTodolistTC,
   createTodolistTC,
-} from "./todolists-reducer";
+  todolistsActions,
+} from "./todolistsSlice";
 import { Navigate } from "react-router-dom";
+import { selectIsLoggedIn } from "../Login/authSlice";
 
 type TodosProps = {
   demo?: boolean;
 };
 
 export const Todos = ({ demo = false }: TodosProps) => {
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+  // const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+
   const todolists = useSelector<AppRootStateType, Array<TodolistEntityType>>(
     (state) => state.todolists
   );
@@ -52,7 +56,10 @@ export const Todos = ({ demo = false }: TodosProps) => {
 
   const changeFilter = useCallback(
     function (value: FilterValuesType, todolistId: string) {
-      const action = changeTodolistFilterAC(todolistId, value);
+      const action = todolistsActions.changeTodolistFilter({
+        todolistId,
+        filter: value,
+      });
       dispatch(action);
     },
     [dispatch]

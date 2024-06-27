@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { TaskPriorities, TaskStatuses } from "../../../../api/todolist-api";
 import { ReduxStoreProviderDecorator } from "../../../../app/ReduxStoreProviderDecorator";
 import { AppRootStateType } from "../../../../app/store";
-import { TaskEntityType } from "../../tasks-reducer";
+import { TaskEntityType } from "../../tasksSlice";
 import { Task } from "../Task/Task";
 // import { TaskType } from "../Todolist";
 

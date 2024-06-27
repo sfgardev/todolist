@@ -14,14 +14,15 @@ import {
   Typography,
 } from "@mui/material";
 import { TaskPriorities, TaskStatuses } from "../api/todolist-api";
-import { removeTaskAC, tasksReducer } from "../features/Todos/tasks-reducer";
+import { tasksActions, tasksReducer } from "../features/Todos/tasksSlice";
 import {
   FilterValuesType,
-  changeTodolistFilterAC,
-  changeTodolistTitleAC,
-  removeTodolistAC,
+  todolistsActions,
+  // changeTodolistFilterAC,
+  // changeTodolistTitleAC,
+  // removeTodolistAC,
   todolistsReducer,
-} from "../features/Todos/todolists-reducer";
+} from "../features/Todos/todolistsSlice";
 
 // export type TasksStateType = {
 //   [key: string]: Array<TaskType>;
@@ -110,7 +111,7 @@ function AppWithReducers() {
   });
 
   function removeTask(id: string, todolistId: string) {
-    const action = removeTaskAC(id, todolistId);
+    const action = tasksActions.removeTask({ taskId: id, todolistId });
     dispatchToTasks(action);
   }
 
@@ -130,18 +131,24 @@ function AppWithReducers() {
   }
 
   function changeFilter(value: FilterValuesType, todolistId: string) {
-    const action = changeTodolistFilterAC(todolistId, value);
+    const action = todolistsActions.changeTodolistFilter({
+      todolistId,
+      filter: value,
+    });
     dispatchToTodolists(action);
   }
 
   function removeTodolist(id: string) {
-    const action = removeTodolistAC(id);
+    const action = todolistsActions.removeTodolist({ todolistId: id });
     dispatchToTasks(action);
     dispatchToTodolists(action);
   }
 
   function changeTodolistTitle(id: string, title: string) {
-    const action = changeTodolistTitleAC(id, title);
+    const action = todolistsActions.changeTodolistTitle({
+      todolistId: id,
+      title,
+    });
     dispatchToTodolists(action);
   }
 

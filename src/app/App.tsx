@@ -12,17 +12,28 @@ import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./store";
 import { useEffect } from "react";
-import { authMeTC, logoutTC } from "../features/Login/auth-reducer";
+import {
+  authMeTC,
+  logoutTC,
+  selectIsLoggedIn,
+} from "../features/Login/authSlice";
+import { selectIsInitialized, selectStatus } from "./appSlice";
 
 type AppProps = {
   demo?: boolean;
 };
 
 function App({ demo = false }: AppProps) {
-  const status = useAppSelector((state) => state.app.status);
-  const isInitialized = useAppSelector((state) => state.app.isInitialized);
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const status = useAppSelector(selectStatus);
+  const isInitialized = useAppSelector(selectIsInitialized);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
+
+  // const status = useAppSelector((state) => state.app.status);
+  // const isInitialized = useAppSelector((state) => state.app.isInitialized);
+  // const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+
   const dispatch = useAppDispatch();
+
   const isLoading = status === "loading";
 
   useEffect(() => {

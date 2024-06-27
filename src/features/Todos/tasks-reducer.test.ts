@@ -1,15 +1,19 @@
-import { TasksStateType, setTaskEntityStatus } from "../Todos/tasks-reducer";
+import { todolistsActions } from "./todolistsSlice";
+import {
+  TasksStateType,
+  // setTaskEntityStatus,
+  tasksActions,
+} from "./tasksSlice";
 import { TaskPriorities, TaskStatuses } from "../../api/todolist-api";
 import {
-  addTaskAC,
-  removeTaskAC,
+  // addTaskAC,
+  // removeTaskAC,
   tasksReducer,
-  updateTaskAC,
-} from "./tasks-reducer";
-import {
-  addTodolistAC,
-  removeTodolistAC,
-} from "../../features/Todos/todolists-reducer";
+  // updateTaskAC,
+} from "./tasksSlice";
+import {} from // addTodolistAC,
+// removeTodolistAC,
+"./todolistsSlice";
 
 let startState: TasksStateType = {};
 beforeEach(() => {
@@ -101,7 +105,10 @@ beforeEach(() => {
 });
 
 test("correct task should be deleted from correct array", () => {
-  const action = removeTaskAC("2", "todolistId2");
+  const action = tasksActions.removeTask({
+    taskId: "2",
+    todolistId: "todolistId2",
+  });
 
   const endState = tasksReducer(startState, action);
 
@@ -110,17 +117,19 @@ test("correct task should be deleted from correct array", () => {
   expect(endState["todolistId2"].every((t) => t.id !== "2")).toBeTruthy();
 });
 test("correct task should be added to correct array", () => {
-  const action = addTaskAC({
-    id: "1",
-    todoListId: "todolistId2",
-    addedDate: "",
-    deadline: "",
-    description: "",
-    order: 0,
-    priority: 0,
-    startDate: "",
-    status: 0,
-    title: "juce",
+  const action = tasksActions.addTask({
+    task: {
+      id: "1",
+      todoListId: "todolistId2",
+      addedDate: "",
+      deadline: "",
+      description: "",
+      order: 0,
+      priority: 0,
+      startDate: "",
+      status: 0,
+      title: "juce",
+    },
   });
 
   const endState = tasksReducer(startState, action);
@@ -132,7 +141,11 @@ test("correct task should be added to correct array", () => {
   expect(endState["todolistId2"][0].status).toBe(TaskStatuses.New);
 });
 test("status of specified task should be changed", () => {
-  const action = updateTaskAC("todolistId2", "2", { status: TaskStatuses.New });
+  const action = tasksActions.updateTask({
+    todolistId: "todolistId2",
+    taskId: "2",
+    model: { status: TaskStatuses.New },
+  });
   // const action = changeTaskStatusAC("2", TaskStatuses.New, "todolistId2");
 
   const endState = tasksReducer(startState, action);
@@ -141,7 +154,11 @@ test("status of specified task should be changed", () => {
   expect(endState["todolistId2"][1].status).toBe(TaskStatuses.New);
 });
 test("title of specified task should be changed", () => {
-  const action = updateTaskAC("todolistId2", "2", { title: "yogurt" });
+  const action = tasksActions.updateTask({
+    todolistId: "todolistId2",
+    taskId: "2",
+    model: { title: "yogurt" },
+  });
   // const action = updateTaskAC("2", "yogurt", "todolistId2");
 
   const endState = tasksReducer(startState, action);
@@ -151,11 +168,13 @@ test("title of specified task should be changed", () => {
   expect(endState["todolistId2"][0].title).toBe("bread");
 });
 test("new array should be added when new todolist is added", () => {
-  const action = addTodolistAC({
-    addedDate: "",
-    id: "1",
-    order: 0,
-    title: "new todolist",
+  const action = todolistsActions.addTodolist({
+    todolist: {
+      addedDate: "",
+      id: "1",
+      order: 0,
+      title: "new todolist",
+    },
   });
 
   const endState = tasksReducer(startState, action);
@@ -170,7 +189,7 @@ test("new array should be added when new todolist is added", () => {
   expect(endState[newKey]).toEqual([]);
 });
 test("propertry with todolistId should be deleted", () => {
-  const action = removeTodolistAC("todolistId2");
+  const action = todolistsActions.removeTodolist({ todolistId: "todolistId2" });
 
   const endState = tasksReducer(startState, action);
 
@@ -182,7 +201,11 @@ test("propertry with todolistId should be deleted", () => {
 test("correct task entity status should be set", () => {
   const endState = tasksReducer(
     startState,
-    setTaskEntityStatus("todolistId1", "2", "loading")
+    tasksActions.setTaskEntityStatus({
+      todolistId: "todolistId1",
+      taskId: "2",
+      status: "loading",
+    })
   );
 
   expect(endState["todolistId1"][1].entityStatus).toBe("loading");
