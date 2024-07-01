@@ -1,6 +1,6 @@
 import { useReducer } from "react";
 import { v1 } from "uuid";
-import { AddItemForm } from "../components/AddItemForm/AddItemForm";
+// import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import "./App.css";
 
 import { Menu } from "@mui/icons-material";
@@ -13,16 +13,24 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { TaskPriorities, TaskStatuses } from "../api/todolist-api";
-import { tasksActions, tasksReducer } from "../features/Todos/tasksSlice";
+// import { TaskPriorities, TaskStatuses } from "../features/Todos/api/todolist-api";
+import {
+  removeTask,
+  tasksActions,
+  tasksReducer,
+} from "../features/Todos/tasksSlice";
 import {
   FilterValuesType,
+  removeTodolist,
   todolistsActions,
   // changeTodolistFilterAC,
   // changeTodolistTitleAC,
   // removeTodolistAC,
   todolistsReducer,
+  updateTodolist,
 } from "../features/Todos/todolistsSlice";
+import { AddItemForm } from "../common/components/AddItemForm/AddItemForm";
+import { TaskPriorities, TaskStatuses } from "../common/enum/enum";
 
 // export type TasksStateType = {
 //   [key: string]: Array<TaskType>;
@@ -110,9 +118,9 @@ function AppWithReducers() {
     ],
   });
 
-  function removeTask(id: string, todolistId: string) {
-    const action = tasksActions.removeTask({ taskId: id, todolistId });
-    dispatchToTasks(action);
+  function removeTaskHandler(id: string, todolistId: string) {
+    const action = removeTask({ taskId: id, todolistId });
+    // dispatchToTasks(action);
   }
 
   function addTask(title: string, todolistId: string) {
@@ -138,19 +146,23 @@ function AppWithReducers() {
     dispatchToTodolists(action);
   }
 
-  function removeTodolist(id: string) {
-    const action = todolistsActions.removeTodolist({ todolistId: id });
-    dispatchToTasks(action);
-    dispatchToTodolists(action);
-  }
+  // function removeTodolistHandler(id: string) {
+  //   const action = removeTodolist({ todolistId: id });
+  //   dispatchToTasks(action);
+  //   dispatchToTodolists(action);
+  // }
 
-  function changeTodolistTitle(id: string, title: string) {
-    const action = todolistsActions.changeTodolistTitle({
-      todolistId: id,
-      title,
-    });
-    dispatchToTodolists(action);
-  }
+  // function changeTodolistTitle(id: string, title: string) {
+  //   // const action = todolistsActions.changeTodolistTitle({
+  //   //   todolistId: id,
+  //   //   title,
+  //   // });
+  //   const action = updateTodolist({
+  //     todolistId: id,
+  //     title,
+  //   });
+  //   dispatchToTodolists(action);
+  // }
 
   function addTodolist(title: string) {
     // const action = addTodolistAC(title);

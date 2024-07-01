@@ -6,21 +6,20 @@ import {
   useAppDispatch,
   useAppSelector,
 } from "../../app/store";
-import { AddItemForm } from "../../components/AddItemForm/AddItemForm";
 import { Todolist } from "./Todolist/Todolist";
-import { TasksStateType, createTaskTC } from "./tasksSlice";
+import { TasksStateType, createTask } from "./tasksSlice";
 import {
   TodolistEntityType,
-  getTodolistsTC,
+  getTodolists,
   FilterValuesType,
-  // changeTodolistFilterAC,
-  removeTodolistTC,
-  updateTodolistTC,
-  createTodolistTC,
+  removeTodolist,
+  updateTodolist,
+  createTodolist,
   todolistsActions,
 } from "./todolistsSlice";
 import { Navigate } from "react-router-dom";
 import { selectIsLoggedIn } from "../Login/authSlice";
+import { AddItemForm } from "../../common/components";
 
 type TodosProps = {
   demo?: boolean;
@@ -42,14 +41,14 @@ export const Todos = ({ demo = false }: TodosProps) => {
   useEffect(() => {
     if (demo || !isLoggedIn) return;
 
-    dispatch(getTodolistsTC());
+    dispatch(getTodolists());
   }, []);
 
   const addTask = useCallback(
     function (title: string, todolistId: string) {
       // const action = addTaskAC(title, todolistId);
       // dispatch(action);
-      dispatch(createTaskTC(todolistId, title));
+      dispatch(createTask({ todolistId, title }));
     },
     [dispatch]
   );
@@ -65,11 +64,11 @@ export const Todos = ({ demo = false }: TodosProps) => {
     [dispatch]
   );
 
-  const removeTodolist = useCallback(
+  const removeTodolistHandler = useCallback(
     function (id: string) {
       // const action = removeTodolistAC(id);
       // dispatch(action);
-      dispatch(removeTodolistTC(id));
+      dispatch(removeTodolist(id));
     },
     [dispatch]
   );
@@ -78,7 +77,7 @@ export const Todos = ({ demo = false }: TodosProps) => {
     function (id: string, title: string) {
       // const action = changeTodolistTitleAC(id, title);
       // dispatch(action);
-      dispatch(updateTodolistTC(id, title));
+      dispatch(updateTodolist({ todolistId: id, title }));
     },
     [dispatch]
   );
@@ -87,7 +86,7 @@ export const Todos = ({ demo = false }: TodosProps) => {
     function (title: string) {
       // const action = addTodolistAC(title);
       // dispatch(action);
-      dispatch(createTodolistTC(title));
+      dispatch(createTodolist(title));
     },
     [dispatch]
   );
@@ -111,7 +110,7 @@ export const Todos = ({ demo = false }: TodosProps) => {
                   changeFilter={changeFilter}
                   addTask={addTask}
                   filter={tl.filter}
-                  removeTodolist={removeTodolist}
+                  removeTodolist={removeTodolistHandler}
                   changeTodolistTitle={changeTodolistTitle}
                   entityStatus={tl.entityStatus}
                   demo={demo}

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 import { v1 } from "uuid";
-import { AddItemForm } from "../components/AddItemForm/AddItemForm";
 import {
   AppBar,
   Button,
@@ -14,15 +13,18 @@ import {
 } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import {
-  TaskPriorities,
-  TaskStatuses,
+  // TaskPriorities,
+  // TaskStatuses,
   TaskType,
   TodolistType,
-} from "../api/todolist-api";
+} from "../features/Todos/api/todolist-api";
 import {
   FilterValuesType,
   TodolistEntityType,
 } from "../features/Todos/todolistsSlice";
+
+import { TaskPriorities, TaskStatuses } from "../common/enum/enum";
+import { AddItemForm } from "../common/components";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;

@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-
 import { useSelector } from "react-redux";
-import { TaskPriorities, TaskStatuses } from "../../../../api/todolist-api";
 import { ReduxStoreProviderDecorator } from "../../../../app/ReduxStoreProviderDecorator";
 import { AppRootStateType } from "../../../../app/store";
 import { TaskEntityType } from "../../tasksSlice";
 import { Task } from "../Task/Task";
-// import { TaskType } from "../Todolist";
+import { TaskPriorities, TaskStatuses } from "../../../../common/enum/enum";
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta: Meta<typeof Task> = {

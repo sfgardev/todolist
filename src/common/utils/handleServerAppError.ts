@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
-import { appActions } from "../app/appSlice";
-import { ResponseType } from "../api";
+
+import { appActions } from "../../app/appSlice";
+import { ResponseType } from "../types/types";
 
 export const handleServerAppError = <D>(
   data: ResponseType<D>,
@@ -11,13 +12,5 @@ export const handleServerAppError = <D>(
   } else {
     dispatch(appActions.setAppError({ error: "Something went wrong" }));
   }
-  dispatch(appActions.setAppStatus({ status: "failed" }));
-};
-
-export const handleServerNetworkError = (
-  error: { message: string },
-  dispatch: Dispatch
-) => {
-  dispatch(appActions.setAppError({ error: error.message }));
   dispatch(appActions.setAppStatus({ status: "failed" }));
 };

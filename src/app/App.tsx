@@ -7,17 +7,13 @@ import LinearProgress from "@mui/material/LinearProgress";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { Outlet } from "react-router-dom";
-import { ErrorSnackbar } from "../components/ErrorSnackbar/ErrorSnackbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import "./App.css";
 import { useAppDispatch, useAppSelector } from "./store";
 import { useEffect } from "react";
-import {
-  authMeTC,
-  logoutTC,
-  selectIsLoggedIn,
-} from "../features/Login/authSlice";
+import { authMe, logout, selectIsLoggedIn } from "../features/Login/authSlice";
 import { selectIsInitialized, selectStatus } from "./appSlice";
+import { ErrorSnackbar } from "../common/components";
 
 type AppProps = {
   demo?: boolean;
@@ -37,11 +33,11 @@ function App({ demo = false }: AppProps) {
   const isLoading = status === "loading";
 
   useEffect(() => {
-    dispatch(authMeTC());
+    dispatch(authMe());
   }, []);
 
   const handleLogout = () => {
-    dispatch(logoutTC());
+    dispatch(logout());
   };
 
   if (!isInitialized) {

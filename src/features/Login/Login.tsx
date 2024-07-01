@@ -9,7 +9,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { FormikErrors, FormikTouched, useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { loginTC, selectIsLoggedIn } from "./authSlice";
+import { login, selectIsLoggedIn } from "./authSlice";
 import { Navigate } from "react-router-dom";
 
 const renderErrorMessage = <T,>(
@@ -55,7 +55,7 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(loginTC(values));
+      dispatch(login(values));
     },
   });
 

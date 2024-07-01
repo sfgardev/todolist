@@ -2,15 +2,15 @@ import { v1 } from "uuid";
 import {
   FilterValuesType,
   TodolistEntityType,
+  createTodolist,
+  getTodolists,
+  removeTodolist,
   todolistsActions,
-  // addTodolistAC,
-  // setTodolistEntityStatusAC,
-  // changeTodolistFilterAC,
-  // changeTodolistTitleAC,
-  // removeTodolistAC,
   todolistsReducer,
+  updateTodolist,
 } from "./todolistsSlice";
 import { RequestStatusType } from "../../app/appSlice";
+import { Action } from "../../common/types";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -40,10 +40,14 @@ beforeEach(() => {
 });
 
 test("correct todolist should be removed", () => {
-  const endState = todolistsReducer(
-    startState,
-    todolistsActions.removeTodolist({ todolistId: todolistId1 })
-  );
+  const action: Action<typeof removeTodolist.fulfilled> = {
+    type: removeTodolist.fulfilled.type,
+    payload: {
+      todolistId: todolistId1,
+    },
+  };
+
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(1);
   expect(endState[0].id).toBe(todolistId2);
@@ -51,13 +55,14 @@ test("correct todolist should be removed", () => {
 
 test("correct todolist should be added", () => {
   let newTodolistTitle = "New Todolist";
+  const action: Action<typeof createTodolist.fulfilled> = {
+    type: createTodolist.fulfilled.type,
+    payload: {
+      todolist: { addedDate: "", id: "1", order: 0, title: "New Todolist" },
+    },
+  };
 
-  const endState = todolistsReducer(
-    startState,
-    todolistsActions.addTodolist({
-      todolist: { addedDate: "", id: "1", order: 0, title: newTodolistTitle },
-    })
-  );
+  const endState = todolistsReducer(startState, action);
 
   expect(endState.length).toBe(3);
   expect(endState[0].title).toBe(newTodolistTitle);
@@ -67,10 +72,18 @@ test("correct todolist should be added", () => {
 test("correct todolist should change its name", () => {
   let newTodolistTitle = "New Todolist";
 
-  const action = todolistsActions.changeTodolistTitle({
-    todolistId: todolistId2,
-    title: newTodolistTitle,
-  });
+  const action: Action<typeof updateTodolist.fulfilled> = {
+    type: updateTodolist.fulfilled.type,
+    payload: {
+      todolistId: todolistId2,
+      title: newTodolistTitle,
+    },
+  };
+
+  // const action = todolistsActions.changeTodolistTitle({
+  //   todolistId: todolistId2,
+  //   title: newTodolistTitle,
+  // });
 
   const endState = todolistsReducer(startState, action);
 
@@ -104,4 +117,16 @@ test("correct entity status of todolist should be changed", () => {
 
   expect(endState[0].entityStatus).toBe("idle");
   expect(endState[1].entityStatus).toBe(newStatus);
+});
+
+test("todolists should be added", () => {
+  const action: Action<typeof getTodolists.fulfilled> = {
+    type: getTodolists.fulfilled.type,
+    payload: { todolists: startState },
+  };
+  // const action = todolistsActions.setTodolists({ todolists: startState });
+
+  const endState = todolistsReducer([], action);
+
+  expect(endState.length).toBe(2);
 });

@@ -1,8 +1,7 @@
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { appActions, selectError } from "../../app/appSlice";
-// import { setAppErrorAC } from "../../app/app-reducer";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { appActions, selectError } from "../../../app/appSlice";
 
 export const ErrorSnackbar = () => {
   const error = useAppSelector(selectError);

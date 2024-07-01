@@ -1,10 +1,11 @@
 import { Delete } from "@mui/icons-material";
 import { Checkbox, IconButton } from "@mui/material";
 import { ChangeEvent, memo, useCallback } from "react";
-import { TaskStatuses } from "../../../../api/todolist-api";
 import { useAppDispatch } from "../../../../app/store";
-import { EditableSpan } from "../../../../components/EditableSpan/EditableSpan";
-import { TaskEntityType, removeTaskTC, updateTaskTC } from "../../tasksSlice";
+
+import { TaskEntityType, removeTask, updateTask } from "../../tasksSlice";
+import { EditableSpan } from "../../../../common/components/EditableSpan/EditableSpan";
+import { TaskStatuses } from "../../../../common/enum";
 
 type TaskProps = {
   task: TaskEntityType;
@@ -18,7 +19,9 @@ export const Task = memo((props: TaskProps) => {
   //props.removeTask(props.task.id, props.todolistId)
   const onClickHandler = useCallback(() => {
     // dispatch(removeTaskAC(props.task.id, props.todolistId));
-    dispatch(removeTaskTC(props.todolistId, props.task.id));
+    dispatch(
+      removeTask({ todolistId: props.todolistId, taskId: props.task.id })
+    );
   }, [props.task.id, props.todolistId, dispatch]);
 
   //props.changeTaskStatus(props.task.id, newIsDoneValue, props.todolistId)
@@ -31,8 +34,12 @@ export const Task = memo((props: TaskProps) => {
       //   changeTaskStatusAC(props.task.id, newIsDoneValue, props.todolistId)
       // );
       dispatch(
-        updateTaskTC(props.todolistId, props.task.id, {
-          status: newIsDoneValue,
+        updateTask({
+          todolistId: props.todolistId,
+          taskId: props.task.id,
+          model: {
+            status: newIsDoneValue,
+          },
         })
       );
     },
@@ -44,7 +51,11 @@ export const Task = memo((props: TaskProps) => {
     (newValue: string) => {
       // dispatch(changeTaskTitleAC(props.task.id, newValue, props.todolistId));
       dispatch(
-        updateTaskTC(props.todolistId, props.task.id, { title: newValue })
+        updateTask({
+          todolistId: props.todolistId,
+          taskId: props.task.id,
+          model: { title: newValue },
+        })
       );
     },
     [props.task.id, props.todolistId, dispatch]

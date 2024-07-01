@@ -1,14 +1,14 @@
 import { Delete } from "@mui/icons-material";
 import { Button, ButtonProps, IconButton } from "@mui/material";
 import { memo, useCallback, useEffect, useMemo } from "react";
-import { TaskStatuses } from "../../../api/todolist-api";
 import { RequestStatusType } from "../../../app/appSlice";
 import { useAppDispatch } from "../../../app/store";
-import { AddItemForm } from "../../../components/AddItemForm/AddItemForm";
-import { EditableSpan } from "../../../components/EditableSpan/EditableSpan";
-import { TaskEntityType, getTasksTC } from "../tasksSlice";
+import { TaskEntityType } from "../tasksSlice";
 import { FilterValuesType } from "../todolistsSlice";
 import { Task } from "./Task/Task";
+import { EditableSpan } from "../../../common/components/EditableSpan/EditableSpan";
+import { TaskStatuses } from "../../../common/enum/enum";
+import { AddItemForm } from "../../../common/components";
 
 type PropsType = {
   id: string;
